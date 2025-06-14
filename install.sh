@@ -7,19 +7,26 @@ CWD=$PWD
 
 # input validator and help
 case "$1" in
-	f41)
-	    IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/41/Container/aarch64/images/Fedora-Container-Base-Generic-41-1.4.aarch64.oci.tar.xz
-	    ;;
-	f42)
-	    IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/42/Container/aarch64/images/Fedora-Container-Base-Generic-42-1.1.aarch64.oci.tar.xz
-	    ;;
-	removal)
-	    chmod -R 777 $FEDORA
-            echo "To uninstall run:"
-	    echo rm -rf $FEDORA
-	    echo rm -f $STARTFEDORA
-	    exit 0
-	    ;;
+        f41)
+            IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/41/Container/aarch64/images/Fedora-Container-Base-Generic-41-1.4.aarch64.oci.tar.xz
+            ;;
+        f42)
+            IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/42/Container/aarch64/images/Fedora-Container-Base-Generic-42-1.1.aarch64.oci.tar.xz
+            ;;
+        removal)
+            echo "Uninstall with:"
+            echo chmod -R 777 $FEDORA
+            echo rm -rf $FEDORA
+            echo rm -f $STARTFEDORA
+            echo "Use 'do-removal' to perform it"
+            exit 0
+            ;;
+        do-removal)
+            chmod -R 777 $FEDORA
+            rm -rf $FEDORA
+            rm -f $STARTFEDORA
+            exit 0
+            ;;
         https://*)
             IMAGE=$1
             ;;
@@ -28,10 +35,10 @@ case "$1" in
             ;;
         script)
             ;;
-	*)
-	    echo $"Usage: $0 {f41|f42|TARURL|removal}"
-	    exit 2
-	    ;;
+        *)
+            echo $"Usage: $0 {f41|f42|TARURL|removal}"
+            exit 2
+            ;;
 esac
 
 if [ "$1" = "script" ]; then
