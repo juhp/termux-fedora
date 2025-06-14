@@ -10,13 +10,13 @@ Inside Termux run:
 ```
 $ pkg install git
 $ git clone git://github.com/juhp/termux-fedora
-$ termux-fedora/install.sh [f41|f42|URL]
+$ termux-fedora/install.sh [f41|f42]
 $ fedora
 ```
 
 To uninstall:
 ```
-$ ./termux-fedora.sh uninstall
+$ ./termux-fedora.sh removal
 ```
 
 Original blog post:

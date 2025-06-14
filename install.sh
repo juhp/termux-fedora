@@ -7,14 +7,18 @@ STARTFEDORA=$TERMUX_BINDIR/fedora
 FEDORA=~/fedora
 CWD=$PWD
 
+F41_IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/41/Container/aarch64/images/Fedora-Container-Base-Generic-41-1.4.aarch64.oci.tar.xz
+
+F42_IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/42/Container/aarch64/images/Fedora-Container-Base-Generic-42-1.1.aarch64.oci.tar.xz
+
 # input validator and help
 case "$1" in
-        f41)
-            IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/41/Container/aarch64/images/Fedora-Container-Base-Generic-41-1.4.aarch64.oci.tar.xz
+        41)
+            IMAGE=${F41_IMAGE}
             BLOB=cab661b116395b168b07a1c4669b842eba6f54f82da27d0cc514db23b19df12a
             ;;
-        f42)
-            IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/42/Container/aarch64/images/Fedora-Container-Base-Generic-42-1.1.aarch64.oci.tar.xz
+        42)
+            IMAGE=${F42_IMAGE}
             BLOB=cfc0be9fb5518ec8eb4521cdb4dc2ee14df42924e0f468d24a8e6cfbdda5fdc9
             ;;
         removal)
@@ -31,10 +35,15 @@ case "$1" in
             rm -f $STARTFEDORA
             exit 0
             ;;
+        check-urls)
+            curl -I -L $F41_IMAGE
+            curl -I -L $F42_IMAGE
+            exit 0
+            ;;
         script)
             ;;
         *)
-            echo $"Usage: $0 {f41|f42|removal}"
+            echo $"Usage: $0 {41|42|removal}"
             exit 2
             ;;
 esac
@@ -85,6 +94,6 @@ chmod +x $STARTFEDORA
 # all done
 echo "done"
 
-if [ "$1" != "script" -a "$1" != "uninstall" ]; then
-    echo "Start Fedora with '$(basename $STARTFEDORA)'. Get updates with regular 'dnf update'."
-fi
+case "$1" in
+    4*) echo "Start Fedora with '$(basename $STARTFEDORA)'. Get updates with regular 'dnf update'." ;;
+esac
