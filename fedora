@@ -10,4 +10,9 @@ shift
 
 CMD="$*"
 
-unset LD_PRELOAD && proot --link2symlink -0 -r ~/fedora$suffix -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w /root /bin/env -i HOME=/root TERM="$TERM" LANG="$LANG" PATH=/usr/bin:/usr/sbin ${CMD:-/bin/bash --login}
+case "$(uname -o)" in
+    Android) LINK2SYMLINK=--link2symlink ;;
+    *) ;;
+esac
+
+unset LD_PRELOAD && proot ${LINK2SYMLINK} -0 -r ~/fedora$suffix -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w /root /bin/env -i HOME=/root TERM="$TERM" LANG="$LANG" PATH=/usr/bin:/usr/sbin ${CMD:-/bin/bash --login}
