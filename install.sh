@@ -53,7 +53,12 @@ elif [ -d "$FEDORA" ]; then
     exit 1
 else
     # install necessary packages
-    pkg install proot tar wget -y
+    if type pkg; then
+        PKGMGR=pkg
+    else
+        PKGMGR=apt
+    fi
+    $PKGMGR install proot tar wget -y
 
     mkdir $FEDORA
     cd $FEDORA
