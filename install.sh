@@ -8,10 +8,10 @@ CWD=$PWD
 # input validator and help
 case "$1" in
 	f41)
-	    DOCKERIMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/41/Container/aarch64/images/Fedora-Container-Base-Generic-41-1.4.aarch64.oci.tar.xz
+	    IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/41/Container/aarch64/images/Fedora-Container-Base-Generic-41-1.4.aarch64.oci.tar.xz
 	    ;;
 	f42)
-	    DOCKERIMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/42/Container/aarch64/images/Fedora-Container-Base-Generic-42-1.1.aarch64.oci.tar.xz
+	    IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/42/Container/aarch64/images/Fedora-Container-Base-Generic-42-1.1.aarch64.oci.tar.xz
 	    ;;
 	uninstall)
 	    chmod -R 777 $FEDORA
@@ -20,7 +20,10 @@ case "$1" in
 	    exit 0
 	    ;;
         https://*)
-            DOCKERIMAGE=$1
+            IMAGE=$1
+            ;;
+        http://*)
+            IMAGE=$1
             ;;
         script)
             ;;
@@ -47,7 +50,7 @@ else
     mkdir $FEDORA
     cd $FEDORA
     # get the docker image
-    $TERMUX_BINDIR/wget $DOCKERIMAGE -O fedora.tar.xz
+    $TERMUX_BINDIR/wget $IMAGE -O fedora.tar.xz
 
     # extract the Docker image
     $TERMUX_BINDIR/tar xvf fedora.tar.xz --strip-components=1 --exclude json --exclude VERSION
