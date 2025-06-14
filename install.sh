@@ -13,10 +13,11 @@ case "$1" in
 	f42)
 	    IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/42/Container/aarch64/images/Fedora-Container-Base-Generic-42-1.1.aarch64.oci.tar.xz
 	    ;;
-	uninstall)
+	removal)
 	    chmod -R 777 $FEDORA
-	    rm -rf $FEDORA
-	    rm -f $STARTFEDORA
+            echo "To uninstall run:"
+	    echo rm -rf $FEDORA
+	    echo rm -f $STARTFEDORA
 	    exit 0
 	    ;;
         https://*)
@@ -28,7 +29,7 @@ case "$1" in
         script)
             ;;
 	*)
-	    echo $"Usage: $0 {f38|f39|TARURL|uninstall}"
+	    echo $"Usage: $0 {f41|f42|TARURL|removal}"
 	    exit 2
 	    ;;
 esac
