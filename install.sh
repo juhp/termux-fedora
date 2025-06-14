@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-set -e
+#set -e
 
 TERMUX_BINDIR=/data/data/com.termux/files/usr/bin
 STARTFEDORA=$TERMUX_BINDIR/fedora
