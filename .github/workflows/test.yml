@@ -14,5 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get -y install proot
+      - run: proot --help
       - run: bash ./install.sh f42
       - run: bash ./fedora cat /etc/os-release

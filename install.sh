@@ -63,13 +63,13 @@ else
     mkdir $FEDORA
     cd $FEDORA
     # get the docker image
-    $TERMUX_BINDIR/wget $IMAGE -O fedora.tar.xz
+    wget $IMAGE -O fedora.tar.xz
 
     # extract the Docker image
-    $TERMUX_BINDIR/tar xvf fedora.tar.xz --strip-components=1 --exclude json --exclude VERSION
+    tar xvf fedora.tar.xz --strip-components=1 --exclude json --exclude VERSION
 
     # extract the rootfs
-    $TERMUX_BINDIR/tar xpf layer.tar
+    tar xpf layer.tar
 
     # cleanup
     chmod +w .
