@@ -1,5 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
+set -e
+
 TERMUX_BINDIR=/data/data/com.termux/files/usr/bin
 STARTFEDORA=$TERMUX_BINDIR/fedora
 FEDORA=~/fedora
@@ -9,9 +11,11 @@ CWD=$PWD
 case "$1" in
         f41)
             IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/41/Container/aarch64/images/Fedora-Container-Base-Generic-41-1.4.aarch64.oci.tar.xz
+            BLOB=cab661b116395b168b07a1c4669b842eba6f54f82da27d0cc514db23b19df12a
             ;;
         f42)
             IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/42/Container/aarch64/images/Fedora-Container-Base-Generic-42-1.1.aarch64.oci.tar.xz
+            BLOB=cfc0be9fb5518ec8eb4521cdb4dc2ee14df42924e0f468d24a8e6cfbdda5fdc9
             ;;
         removal)
             echo "Uninstall with:"
@@ -27,16 +31,10 @@ case "$1" in
             rm -f $STARTFEDORA
             exit 0
             ;;
-        https://*)
-            IMAGE=$1
-            ;;
-        http://*)
-            IMAGE=$1
-            ;;
         script)
             ;;
         *)
-            echo $"Usage: $0 {f41|f42|TARURL|removal}"
+            echo $"Usage: $0 {f41|f42|removal}"
             exit 2
             ;;
 esac
@@ -66,14 +64,14 @@ else
     wget $IMAGE -O fedora.tar.xz
 
     # extract the Docker image
-    tar xvf fedora.tar.xz --strip-components=1 --exclude json --exclude VERSION
+    tar xvf fedora.tar.xz --strip-components=1 --exclude json
 
     # extract the rootfs
-    tar xpf layer.tar
+    tar xpf blobs/sha256/$BLOB
 
     # cleanup
     chmod +w .
-    rm layer.tar
+    rm -r blobs oci-layout
     rm fedora.tar.xz
 
     # fix DNS
