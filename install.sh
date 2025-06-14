@@ -61,7 +61,7 @@ else
     wget $IMAGE -O fedora.tar.xz
 
     # extract the Docker image
-    tar xvf fedora.tar.xz --strip-components=1 --exclude json
+    tar xvf fedora.tar.xz --exclude json
 
     # extract the rootfs
     tar xpf blobs/sha256/$BLOB
