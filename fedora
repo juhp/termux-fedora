@@ -1,3 +1,13 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-unset LD_PRELOAD && proot --link2symlink -0 -r ~/fedora$1 -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w /root /bin/env -i HOME=/root TERM="$TERM" LANG="$LANG" PATH=/usr/bin:/usr/sbin /bin/bash --login
+case $1 in
+    -h) echo "Usage: fedora [VERSION|--] [COMMAND]" ;;
+    --help) echo "Usage: fedora [VERSION|--] [COMMAND]" ;;
+    --) suffix="" ;;
+    *) suffix=$1 ;;
+esac
+shift
+
+CMD="$*"
+
+unset LD_PRELOAD && proot --link2symlink -0 -r ~/fedora$suffix -b /dev/ -b /sys/ -b /proc/ -b /storage/ -b $HOME -w /root /bin/env -i HOME=/root TERM="$TERM" LANG="$LANG" PATH=/usr/bin:/usr/sbin ${CMD:-/bin/bash --login}
