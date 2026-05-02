@@ -21,3 +21,11 @@ $ ./termux-fedora.sh removal
 
 Original blog post:
 https://nmilosev.svbtle.com/termuxfedora-install-fedora-on-your-phone-with-termux
+
+# Alternatives
+
+You may be better off using `proot-distro`:
+
+```
+$ proot-distro install fedora
+```
