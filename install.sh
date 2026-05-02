@@ -80,7 +80,9 @@ else
     tar xvf fedora.tar.xz --exclude json
 
     # extract the rootfs (ignore tz hard link errors)
-    tar xpf blobs/sha256/$BLOB || :
+    set +e
+    tar xpf blobs/sha256/$BLOB
+    set -e
 
     # cleanup
     chmod +w .
