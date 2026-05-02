@@ -7,45 +7,52 @@ STARTFEDORA=$TERMUX_BINDIR/fedora
 FEDORA=~/fedora
 CWD=$PWD
 
-F41_IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/41/Container/aarch64/images/Fedora-Container-Base-Generic-41-1.4.aarch64.oci.tar.xz
-
-F42_IMAGE=https://download.fedoraproject.org/pub/fedora/linux/releases/42/Container/aarch64/images/Fedora-Container-Base-Generic-42-1.1.aarch64.oci.tar.xz
+set_vars() {
+    case "$1" in
+        43)
+            RELEASE=1.6
+            BLOB=a05f025c9418cc4a7001631fab932e61d2b1130900e93a06a46ddacd84f6c217
+            ;;
+        44)
+            RELEASE=1.7
+            BLOB=d93cacdefe7f7526297a08879cb444d1eeb526adf9cb7e34ab1f0609759a3044
+            ;;
+    esac
+    URL="https://download.fedoraproject.org/pub/fedora/linux/releases/$1/Container/aarch64/images/Fedora-Container-Base-Generic-$1-$RELEASE.aarch64.oci.tar.xz"
+}
 
 # input validator and help
 case "$1" in
-        41)
-            IMAGE=${F41_IMAGE}
-            BLOB=cab661b116395b168b07a1c4669b842eba6f54f82da27d0cc514db23b19df12a
-            ;;
-        42)
-            IMAGE=${F42_IMAGE}
-            BLOB=cfc0be9fb5518ec8eb4521cdb4dc2ee14df42924e0f468d24a8e6cfbdda5fdc9
-            ;;
-        removal)
-            echo "Uninstall with:"
-            echo chmod -R 777 $FEDORA
-            echo rm -rf $FEDORA
-            echo rm -f $STARTFEDORA
-            echo "Use 'do-removal' to perform it"
-            exit 0
-            ;;
-        do-removal)
-            chmod -R 777 $FEDORA
-            rm -rf $FEDORA
-            rm -f $STARTFEDORA
-            exit 0
-            ;;
-        check-urls)
-            curl -I -L $F41_IMAGE
-            curl -I -L $F42_IMAGE
-            exit 0
-            ;;
-        script)
-            ;;
-        *)
-            echo $"Usage: $0 {41|42|removal}"
-            exit 2
-            ;;
+    43|44)
+        set_vars $1
+        ;;
+    removal)
+        echo "Uninstall with:"
+        echo chmod -R 777 $FEDORA
+        echo rm -rf $FEDORA
+        echo rm -f $STARTFEDORA
+        echo "Use 'do-removal' to perform it"
+        exit 0
+        ;;
+    do-removal)
+        chmod -R 777 $FEDORA
+        rm -rf $FEDORA
+        rm -f $STARTFEDORA
+        exit 0
+        ;;
+    check-urls)
+        for ver in 43 44; do
+            set_vars $ver
+            curl -I -L $URL
+        done
+        exit 0
+        ;;
+    script)
+        ;;
+    *)
+        echo $"Usage: $0 {43|44|removal}"
+        exit 2
+        ;;
 esac
 
 if [ "$1" = "script" ]; then
@@ -66,8 +73,8 @@ else
 
     mkdir $FEDORA
     cd $FEDORA
-    # get the docker image
-    wget $IMAGE -O fedora.tar.xz
+    # get the container image
+    wget $URL -O fedora.tar.xz
 
     # extract the Docker image
     tar xvf fedora.tar.xz --exclude json
