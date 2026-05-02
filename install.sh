@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-set -e
+set -e -x
 
 TERMUX_BINDIR=/data/data/com.termux/files/usr/bin
 STARTFEDORA=$TERMUX_BINDIR/fedora
@@ -80,9 +80,7 @@ else
     tar xvf fedora.tar.xz --exclude json
 
     # extract the rootfs (ignore tz hard link errors)
-    set +e
-    tar xpf blobs/sha256/$BLOB
-    set -e
+    tar xpf blobs/sha256/$BLOB 2>/dev/null || :
 
     # cleanup
     chmod +w .
