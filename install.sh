@@ -15,7 +15,7 @@ set_vars() {
             ;;
         44)
             RELEASE=1.7
-            BLOB=d93cacdefe7f7526297a08879cb444d1eeb526adf9cb7e34ab1f0609759a3044
+            BLOB=a98d584a20692d8c0aed91d18c87b84b89f1183f3eb7241626ffbe1cd4f664ec
             ;;
     esac
     URL="https://download.fedoraproject.org/pub/fedora/linux/releases/$1/Container/aarch64/images/Fedora-Container-Base-Generic-$1-$RELEASE.aarch64.oci.tar.xz"
