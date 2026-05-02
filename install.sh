@@ -79,8 +79,8 @@ else
     # extract the Docker image
     tar xvf fedora.tar.xz --exclude json
 
-    # extract the rootfs
-    tar xpf blobs/sha256/$BLOB
+    # extract the rootfs (ignore tz hard link errors)
+    tar xpf blobs/sha256/$BLOB || :
 
     # cleanup
     chmod +w .
